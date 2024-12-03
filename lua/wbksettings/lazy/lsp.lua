@@ -9,7 +9,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "tsserver", "clangd", "solargraph", "elixirls", "pyright", "rubocop" }
+        ensure_installed = { "lua_ls", "clangd", "solargraph", "elixirls", "pyright", "rubocop" }
       })
     end
   },
@@ -32,11 +32,6 @@ return {
 
       -- lsp setup for Lua
       lspconfig.lua_ls.setup({
-        on_attach = attacher
-      })
-
-      --lsp setup for tsserver
-      lspconfig.tsserver.setup({
         on_attach = attacher
       })
 

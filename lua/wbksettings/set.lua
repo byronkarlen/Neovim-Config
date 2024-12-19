@@ -1,6 +1,7 @@
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
+-- Below should be automatic if using sleuth
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2

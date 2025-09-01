@@ -10,7 +10,7 @@ return {
         initial_mode = "normal",
         mappings = {
           n = {
-            ["<leader>q"] = actions.close,
+            ["q"] = actions.close,
             ["d"] = actions.delete_buffer
           }
         }

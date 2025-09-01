@@ -48,11 +48,7 @@ return {
         relative = 'cursor',
         row = 0,
         col = 1
-      },
-      on_attach = function(bufnr)
-        local gitsigns = require('gitsigns')
-        vim.keymap.set('n', '<leader>gb', function() gitsigns.blame() end, { desc = 'Git blame line' })
-      end
+      }
     }
   end
 }

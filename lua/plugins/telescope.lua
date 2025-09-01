@@ -23,5 +23,6 @@ return {
     vim.keymap.set('n', '<leader>f', builtin.find_files, {})
     -- Requires ripgrep to be installed in PATH
     vim.keymap.set('n', '<leader>r', builtin.live_grep, {})
+    vim.keymap.set('n', '<leader>gb', builtin.git_branches, {})
   end
 }

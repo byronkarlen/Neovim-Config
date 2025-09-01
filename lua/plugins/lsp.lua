@@ -12,7 +12,7 @@ return {
     config = function()
       require("mason-lspconfig").setup({
         -- Install manually though Mason to avoid duplicate LSP problem
-        -- ensure_installed = { "lua_ls" }
+        -- ensure_installed = { "lua_ls", "typescript-language-server", "eslint-lsp" }
         ensure_installed = { },
         automatic_installation = false,
         automatic_setup = false,
@@ -42,6 +42,7 @@ return {
       -- lsp setup for Lua
       lspconfig.lua_ls.setup({
         on_attach = attacher,
+        filetypes = { "lua" },
         settings = {
           Lua = {
             runtime = {
@@ -60,6 +61,11 @@ return {
             },
           },
         },
+      })
+
+      -- lsp setup for typescript
+      lspconfig.ts_ls.setup({
+        on_attach = attacher
       })
 
       -- keybindings once language server attaches to buffer
@@ -87,8 +93,9 @@ return {
           end
           print("Stopping LSP: " .. table.concat(vim.tbl_map(function(c) return c.name end, clients), ", "))
         else
+          local ft = vim.bo[bufnr].filetype
           for _, config in pairs(require("lspconfig.configs")) do
-            if config.manager then
+            if config.manager and vim.tbl_contains(config.filetypes or {}, ft) then
               config.manager:try_add(bufnr)
             end
           end

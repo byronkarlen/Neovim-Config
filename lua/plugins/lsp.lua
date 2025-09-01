@@ -1,6 +1,6 @@
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     config = function()
       require("mason").setup({
         ui = { border = "single" }
@@ -8,10 +8,16 @@ return {
     end
   },
   {
-    "williamboman/mason-lspconfig.nvim",
+    "mason-org/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls" }
+        -- Install manually though Mason to avoid duplicate LSP problem
+        -- ensure_installed = { "lua_ls" }
+        ensure_installed = { },
+        automatic_installation = false,
+        automatic_setup = false,
+        automatic_enable = false,
+        handlers = nil
       })
     end
   },

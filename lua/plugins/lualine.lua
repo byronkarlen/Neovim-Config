@@ -3,18 +3,19 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons' },
 
   config = function()
-    local custom_theme = require('lualine.themes.auto')
-
-    local function make_transparent(mode)
-      for _, section in pairs(custom_theme[mode]) do
-        section.bg = "none" -- inherit terminal background
-        section.fg = "none" -- inherit terminal background
-      end
+    -- Detect system appearance (macOS)
+    local function get_system_appearance()
+      local handle = io.popen("defaults read -g AppleInterfaceStyle 2>/dev/null")
+      local result = handle:read("*a")
+      handle:close()
+      return result:match("Dark") and "dark" or "light"
     end
 
-    for _, mode in ipairs({ "normal", "insert", "visual", "replace", "command", "inactive" }) do
-      make_transparent(mode)
-    end
+    -- Choose theme based on system appearance
+    local appearance = get_system_appearance()
+    local theme_name = appearance == "dark" and "nord" or "iceberg_light"
+
+    local custom_theme = require('lualine.themes.' .. theme_name)
 
     require('lualine').setup {
       options = {

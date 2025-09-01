@@ -13,7 +13,7 @@ return {
       require("mason-lspconfig").setup({
         -- Install manually though Mason to avoid duplicate LSP problem
         -- ensure_installed = { "lua_ls", "typescript-language-server", "eslint-lsp" }
-        ensure_installed = { },
+        ensure_installed = { "eslint" },
         automatic_installation = false,
         automatic_setup = false,
         automatic_enable = false,
@@ -66,6 +66,19 @@ return {
       -- lsp setup for typescript
       lspconfig.ts_ls.setup({
         on_attach = attacher
+      })
+
+      -- lsp setup for eslint
+      lspconfig.eslint.setup({
+        on_attach = function(client, _)
+          attacher(client)
+        end,
+        settings = {
+          codeActionOnSave = {
+            enable = true,
+            mode = "all"
+          },
+        }
       })
 
       -- keybindings once language server attaches to buffer

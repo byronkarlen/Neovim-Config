@@ -51,7 +51,6 @@ return {
       },
       on_attach = function(bufnr)
         local gitsigns = require('gitsigns')
-        
         vim.keymap.set('n', '<leader>gb', function() gitsigns.blame() end, { desc = 'Git blame line' })
       end
     }

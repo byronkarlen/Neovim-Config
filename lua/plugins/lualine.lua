@@ -3,10 +3,23 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons' },
 
   config = function()
+    local custom_theme = require('lualine.themes.auto')
+
+    local function make_transparent(mode)
+      for _, section in pairs(custom_theme[mode]) do
+        section.bg = "none" -- inherit terminal background
+        section.fg = "none" -- inherit terminal background
+      end
+    end
+
+    for _, mode in ipairs({ "normal", "insert", "visual", "replace", "command", "inactive" }) do
+      make_transparent(mode)
+    end
+
     require('lualine').setup {
       options = {
         icons_enabled = true,
-        theme = 'auto',
+        theme = custom_theme,
         component_separators = { left = '', right = ''},
         section_separators = { left = '', right = ''},
         disabled_filetypes = {
@@ -25,11 +38,11 @@ return {
       sections = {
         lualine_a = {'mode'},
         lualine_b = {'filename'},
-        lualine_c = {'branch', 'diff', 'diagnostics'},
+        lualine_c = {'branch', 'diagnostics'},
         -- lualine_x = {'encoding', 'fileformat', 'filetype'},
-        lualine_x = {'lsp_status'},
+        lualine_x = {''},
         lualine_y = {'progress'},
-        lualine_z = {'location'}
+        lualine_z = {'lsp_status'}
       },
       inactive_sections = {
         lualine_a = {},

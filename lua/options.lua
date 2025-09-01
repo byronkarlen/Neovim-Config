@@ -14,6 +14,11 @@ vim.opt.smartindent = false -- vim will automatically indent/de-indent with code
 vim.opt.swapfile = false
 vim.opt.backup = false
 
+-- Persistent undo
+vim.opt.undodir = os.getenv("HOME") .. "/.nvim/undodir"
+vim.opt.undofile = true
+vim.opt.undolevels = 1000 -- limit undo history to 1000 changes
+
 -- Time nvim waits after pausing to trigger certain events -> makes it feel super responsive
 vim.opt.updatetime = 50
 

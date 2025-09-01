@@ -7,6 +7,7 @@ return {
     vim.keymap.set('n', '<leader>gl', ':Git pull<CR>', { desc = 'Git pull' })
     vim.keymap.set('n', '<leader>gd', ':Gdiffsplit<CR>', { desc = 'Git diff split' })
     vim.keymap.set('n', '<leader>gw', ':Gwrite<CR>', { desc = 'Git add current file' })
-    -- vim.keymap.set('n', '<leader>gr', ':Gread<CR>', { desc = 'Git checkout current file' })
+    vim.keymap.set('n', '<leader>gt', ':G log --oneline<CR>', { desc = 'Git log --oneline' })
+    vim.keymap.set('n', '<leader>gk', ':G checkout ', { desc = 'Git checkout' })
   end
 }

@@ -43,3 +43,9 @@ vim.keymap.set("n", "X", '"_X')
 -- toggling between active buffers
 vim.keymap.set("n", "<leader>n", ":bnext<CR>", { silent = true })
 vim.keymap.set("n", "<leader>p", ":bprevious<CR>", { silent = true })
+
+-- toggling focus between nvim splits
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Move left" })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move down" })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move up" })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move right" })

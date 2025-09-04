@@ -9,10 +9,19 @@ vim.keymap.set('n', '<leader>Y', [["+Y]])
 vim.keymap.set('n', '<leader>e', vim.cmd.Ex, { desc = 'open explorer' })
 vim.keymap.set('n', '<leader>q', vim.cmd.bd, { desc = 'buffer delete' })
 
--- print file path
-vim.keymap.set("n", "<leader>tt", function()
-  print(vim.fn.expand("%:p:."))
-end, { desc = "Print relative file path" })
+-- copy relative path + current line range to system clipboard
+vim.keymap.set("x", "<leader>tt",
+  [[:<C-u>let @+ = expand('%:p:.') . ':' . line("'<") . '-' . line("'>") | echo @+<CR>]],
+  { desc = "Copy relative file path + line range to clipboard and echo" }
+)
+
+-- copy relative path + current line to system clipboard
+vim.keymap.set({ "n" }, "<leader>tt", function()
+  local file = vim.fn.expand("%:p:.")
+  local ref = string.format("%s:%d", file, vim.fn.line("."))
+  vim.fn.setreg("+", ref)
+  print(ref)
+end, { desc = "Copy relative file path and current line range to clipboard" })
 
 -- copy relative file path to system clipboard
 vim.keymap.set("n", "<leader>tr", function()

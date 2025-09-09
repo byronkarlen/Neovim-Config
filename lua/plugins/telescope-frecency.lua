@@ -6,6 +6,7 @@ return {
       extensions = {
         frecency = {
           prompt_title = "Find files",
+          show_filter_column = false,
         },
       },
     })

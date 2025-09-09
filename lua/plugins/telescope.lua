@@ -52,7 +52,7 @@ return {
     local builtin = require('telescope.builtin')
 
     vim.keymap.set('n', '<leader>b', builtin.buffers, {})
-    vim.keymap.set('n', '<leader>f', builtin.find_files, {})
+    -- vim.keymap.set('n', '<leader>f', builtin.find_files, {}) Using frecency instead
     -- Requires ripgrep to be installed in PATH
     vim.keymap.set('n', '<leader>r', builtin.live_grep, {})
     vim.keymap.set('n', '<leader>gb', builtin.git_branches, {})

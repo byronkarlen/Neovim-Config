@@ -5,13 +5,31 @@ return {
 
   config = function()
     local actions = require('telescope.actions')
+    local action_state = require('telescope.actions.state')
+
+    local function paste_after(prompt_bufnr, reg)
+      local text   = vim.fn.getreg(reg or '"')
+      local picker = action_state.get_current_picker(prompt_bufnr)
+      local line   = action_state.get_current_line()
+      picker:reset_prompt(line .. text)
+    end
+
+    local function paste_before(prompt_bufnr, reg)
+      local text   = vim.fn.getreg(reg or '"')
+      local picker = action_state.get_current_picker(prompt_bufnr)
+      local line   = action_state.get_current_line()
+      picker:reset_prompt(text .. line)
+    end
+
     require('telescope').setup({
       defaults = {
         initial_mode = "normal",
         file_ignore_patterns = { "%.git/" },
         mappings = {
           n = {
-            ["<leader>q"] = actions.close
+            ["<leader>q"] = actions.close,
+            ["p"] = paste_after,
+            ["P"] = paste_before,
           }
         }
       },

@@ -8,11 +8,18 @@ return {
     require('telescope').setup({
       defaults = {
         initial_mode = "normal",
+        file_ignore_patterns = { "%.git/" },
         mappings = {
           n = {
             ["<leader>q"] = actions.close,
             ["d"] = actions.delete_buffer
           }
+        }
+      },
+      pickers = {
+        find_files = {
+          hidden = true,
+          no_ignore = false,
         }
       }
     })

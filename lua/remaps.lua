@@ -40,6 +40,8 @@ end, { desc = "Copy absolute file path" })
 -- delete to black hole
 vim.keymap.set({"n", "v"}, "<leader>d", '"_d')
 vim.keymap.set("n", "<leader>D", '"_D')
+-- also accomplished with 'x' in visual mode
+vim.keymap.set("v", "x", '"_x', { noremap = true, silent = true })
 
 -- change to black hole by default
 vim.keymap.set({"n", "v"}, "c", '"_c')

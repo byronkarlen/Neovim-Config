@@ -11,8 +11,7 @@ return {
         file_ignore_patterns = { "%.git/" },
         mappings = {
           n = {
-            ["<leader>q"] = actions.close,
-            ["d"] = actions.delete_buffer
+            ["<leader>q"] = actions.close
           }
         }
       },
@@ -20,6 +19,14 @@ return {
         find_files = {
           hidden = true,
           no_ignore = false,
+        },
+        buffers = {
+          sort_lastused = true,
+          mappings = {
+            n = {
+              ["d"] = actions.delete_buffer
+            }
+          }
         }
       }
     })

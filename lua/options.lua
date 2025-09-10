@@ -34,3 +34,6 @@ vim.opt.smartcase = true
 
 vim.opt.splitright = true
 
+-- Keep 10 lines above/below the cursor
+vim.opt.scrolloff = 10
+

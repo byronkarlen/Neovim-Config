@@ -7,15 +7,15 @@ vim.keymap.set('n', '<leader>Y', [["+Y]])
 
 -- for the netrw file system view
 vim.keymap.set('n', '<leader>e', vim.cmd.Ex, { desc = 'open explorer' })
+
+-- for deleting buffers
 vim.keymap.set('n', '<leader>q', vim.cmd.bd, { desc = 'buffer delete' })
 
--- copy relative path + current line range to system clipboard
-vim.keymap.set("x", "<leader>tt",
-  [[:<C-u>let @+ = expand('%:p:.') . ':' . line("'<") . '-' . line("'>") | echo @+<CR>]],
-  { desc = "Copy relative file path + line range to clipboard and echo" }
-)
-
 -- copy relative path + current line to system clipboard
+vim.keymap.set("v", "<leader>tt",
+  [[:<C-u>let start = line("'<") | let end = line("'>") | let @+ = expand('%:p:.') . ':' . (start == end ? start : start . '-' . end) | echo @+<CR>]],
+  { desc = "Copy relative file path + line range to clipboard and echo", silent = true }
+)
 vim.keymap.set({ "n" }, "<leader>tt", function()
   local file = vim.fn.expand("%:p:.")
   local ref = string.format("%s:%d", file, vim.fn.line("."))

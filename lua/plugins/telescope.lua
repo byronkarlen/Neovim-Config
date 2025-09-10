@@ -25,6 +25,21 @@ return {
       defaults = {
         initial_mode = "normal",
         file_ignore_patterns = { "%.git/" },
+
+        -- custom path_display: filename prominent, rest dim
+        path_display = function(_, path)
+          local tail   = vim.fn.fnamemodify(path, ":t")        -- filename
+          local cwd    = vim.fn.getcwd()
+          local rel    = vim.fn.fnamemodify(path, ":." .. cwd) -- always CWD-relative
+          local parent = vim.fn.fnamemodify(rel, ":h")         -- parent dir (relative)
+
+          if parent == "." then
+            parent = "."
+          end
+
+          return string.format("%s   %s", tail, parent)
+        end,
+
         mappings = {
           n = {
             ["<leader>q"] = actions.close,

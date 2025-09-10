@@ -32,3 +32,5 @@ vim.g.netrw_banner = 0
 -- Ignorecase is not turned on but the telescope-frecency extension will still read this value
 vim.opt.smartcase = true
 
+vim.opt.splitright = true
+

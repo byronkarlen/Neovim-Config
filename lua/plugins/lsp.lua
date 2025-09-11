@@ -94,7 +94,10 @@ return {
           vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
           vim.keymap.set('n', 'F', vim.lsp.buf.format, opts)
           vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
-          vim.keymap.set('n', '<leader>k', vim.diagnostic.open_float, opts)
+          vim.keymap.set('n', '<leader>k', function()
+            vim.diagnostic.open_float()
+            vim.diagnostic.open_float() -- place cursor in the window, making it easier to quit
+          end, opts)
         end
       })
 

@@ -43,7 +43,7 @@ return {
             parent = ""
           end
 
-          return string.format("%s   %s", tail, parent)
+          return string.format("%s   %s ", tail, parent)
         end,
 
         mappings = {

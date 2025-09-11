@@ -1,7 +1,13 @@
 return {
   'nvim-telescope/telescope.nvim',
   tag = '0.1.8',
-  dependencies = { 'nvim-lua/plenary.nvim' },
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    {
+      "nvim-telescope/telescope-frecency.nvim",
+      version = "*",
+    }
+  },
 
   config = function()
     local actions = require('telescope.actions')
@@ -61,13 +67,26 @@ return {
             }
           }
         }
-      }
+      },
+      extensions = {
+        frecency = {
+          prompt_title = "Find files",
+          show_filter_column = false,
+        },
+      },
     })
+
+    require("telescope").load_extension "frecency"
 
     local builtin = require('telescope.builtin')
 
     vim.keymap.set('n', '<leader>b', builtin.buffers, {})
-    -- vim.keymap.set('n', '<leader>f', builtin.find_files, {}) Using frecency instead
+    vim.keymap.set( "n", "<leader>f", function()
+        require("telescope").extensions.frecency.frecency({
+          workspace = "CWD",   -- restrict to current working directory
+        })
+      end,
+    { noremap = true, silent = true, desc = "Frecency (cwd only)" })
     -- Requires ripgrep to be installed in PATH
     vim.keymap.set('n', '<leader>r', builtin.live_grep, {})
     vim.keymap.set('n', '<leader>R', function()

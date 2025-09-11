@@ -60,7 +60,6 @@ return {
           no_ignore = false,
         },
         buffers = {
-          sort_lastused = true,
           mappings = {
             n = {
               ["d"] = actions.delete_buffer

@@ -15,6 +15,8 @@ vim.keymap.set('n', '<leader>e', ex_to_current_file, { desc = 'open explorer' })
 
 -- for deleting buffers
 vim.keymap.set('n', '<leader>q', vim.cmd.bd, { desc = 'buffer delete' })
+-- for undoing a buffer deletion
+vim.keymap.set('n', '<leader>Q', '<cmd>e#<cr>', { desc = 'reopen last buffer', silent = true })
 
 -- copy relative path + current line to system clipboard
 vim.keymap.set("v", "<leader>tt",

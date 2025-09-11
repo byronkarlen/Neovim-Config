@@ -34,7 +34,7 @@ return {
           local parent = vim.fn.fnamemodify(rel, ":h")         -- parent dir (relative)
 
           if parent == "." then
-            parent = "."
+            parent = ""
           end
 
           return string.format("%s   %s", tail, parent)
@@ -70,6 +70,12 @@ return {
     -- vim.keymap.set('n', '<leader>f', builtin.find_files, {}) Using frecency instead
     -- Requires ripgrep to be installed in PATH
     vim.keymap.set('n', '<leader>r', builtin.live_grep, {})
+    vim.keymap.set('n', '<leader>R', function()
+      local dir = vim.fn.input("Search in subdir: ", vim.fn.getcwd() .. "/", "dir")
+      if dir ~= "" then
+        builtin.live_grep({ cwd = dir })
+      end
+    end, { desc = "Live grep in chosen subdir" })
     vim.keymap.set('n', '<leader>gb', builtin.git_branches, {})
   end
 }

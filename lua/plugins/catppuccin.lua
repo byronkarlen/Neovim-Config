@@ -22,7 +22,7 @@ return {
           lualine = true,
           gitsigns = true,
           mason = true,
-          native_lsp = { enabled = true },
+          -- native_lsp = { enabled = true },
         },
       })
 

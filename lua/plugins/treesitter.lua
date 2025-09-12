@@ -19,7 +19,8 @@ return {
         "yaml",
         "python",
         "tsx",
-        "hcl"
+        "hcl",
+        "sql"
       },
 
       sync_install = false,

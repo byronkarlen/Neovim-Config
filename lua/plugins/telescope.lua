@@ -80,20 +80,35 @@ return {
     local builtin = require('telescope.builtin')
 
     vim.keymap.set('n', '<leader>b', builtin.buffers, {})
+
     vim.keymap.set( "n", "<leader>f", function()
         require("telescope").extensions.frecency.frecency({
           workspace = "CWD",   -- restrict to current working directory
         })
       end,
     { noremap = true, silent = true, desc = "Frecency (cwd only)" })
+
     -- Requires ripgrep to be installed in PATH
-    vim.keymap.set('n', '<leader>r', builtin.live_grep, {})
+    vim.keymap.set('n', '<leader>r', function()
+      builtin.live_grep({
+        additional_args = function()
+          return { "--hidden" }
+        end,
+      })
+    end, { desc = "Live grep (include hidden)" })
+
     vim.keymap.set('n', '<leader>R', function()
       local dir = vim.fn.input("Search in subdir: ", vim.fn.getcwd() .. "/", "dir")
       if dir ~= "" then
-        builtin.live_grep({ cwd = dir })
+        builtin.live_grep({
+          cwd = dir,
+          additional_args = function()
+            return { "--hidden" }
+          end
+        })
       end
     end, { desc = "Live grep in chosen subdir" })
+
     vim.keymap.set('n', '<leader>gb', builtin.git_branches, {})
   end
 }

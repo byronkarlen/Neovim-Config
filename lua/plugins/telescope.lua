@@ -26,7 +26,7 @@ return {
         },
         find_files = {
           prompt_title = "Find files (fuzzy)"
-        }
+        },
       },
 
       extensions = {
@@ -52,14 +52,20 @@ return {
 
     vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 
-    vim.keymap.set( "n", "<leader>f", function()
+    vim.keymap.set( "n", "<leader>F", function()
         require("telescope").extensions.frecency.frecency({
           workspace = "CWD",
         })
       end,
-    { desc = "Frecency (cwd only)" })
+    { desc = "Frecency" })
 
-    vim.keymap.set('n', '<leader>F', builtin.find_files, { desc = "Find files (fuzzy)" })
+    vim.keymap.set('n', '<leader>o', function()
+      builtin.oldfiles({
+        cwd_only = true
+      })
+    end, { desc = "Old files" })
+
+    vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = "Find files (fuzzy)" })
 
     -- Requires ripgrep to be installed in PATH
     -- Ignores files ignored by git, but not .git/ itself

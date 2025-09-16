@@ -4,15 +4,6 @@ vim.g.mapleader = ' '
 vim.keymap.set({'n', 'v'}, '<leader>y', [["+y]]) -- [[]] are for strings without escaping in Lua
 vim.keymap.set('n', '<leader>Y', [["+Y]])
 
-
--- for the netrw file system view
-local ex_to_current_file = function()
-  local cur_file = vim.fn.expand('%:t')
-  vim.cmd.Ex()
-  vim.fn.search('^' .. vim.fn.escape(cur_file, '\\') .. '$')
-end
-vim.keymap.set('n', '<leader>e', ex_to_current_file, { desc = 'open explorer' })
-
 -- for deleting buffers
 vim.keymap.set('n', '<leader>q', vim.cmd.bd, { desc = 'buffer delete' })
 

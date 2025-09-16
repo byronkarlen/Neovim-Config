@@ -3,97 +3,66 @@ return {
   tag = '0.1.8',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    {
-      "nvim-telescope/telescope-frecency.nvim",
-      version = "*",
-    }
+    'nvim-telescope/telescope-frecency.nvim',
+    'nvim-telescope/telescope-file-browser.nvim',
   },
 
   config = function()
     local actions = require('telescope.actions')
-    local action_state = require('telescope.actions.state')
-
-    local function paste_after(prompt_bufnr, reg)
-      local text   = vim.fn.getreg(reg or '"')
-      local picker = action_state.get_current_picker(prompt_bufnr)
-      local line   = action_state.get_current_line()
-      picker:reset_prompt(line .. text)
-    end
-
-    local function paste_before(prompt_bufnr, reg)
-      local text   = vim.fn.getreg(reg or '"')
-      local picker = action_state.get_current_picker(prompt_bufnr)
-      local line   = action_state.get_current_line()
-      picker:reset_prompt(text .. line)
-    end
-
     require('telescope').setup({
       defaults = {
         initial_mode = "normal",
-        file_ignore_patterns = { "%.git/" },
-
-        -- custom path_display: filename prominent, rest dim
-        path_display = function(_, path)
-          local tail   = vim.fn.fnamemodify(path, ":t")        -- filename
-          local cwd    = vim.fn.getcwd()
-          local rel    = vim.fn.fnamemodify(path, ":." .. cwd) -- always CWD-relative
-          local parent = vim.fn.fnamemodify(rel, ":h")         -- parent dir (relative)
-
-          if parent == "." then
-            parent = ""
-          end
-
-          return string.format("%s   %s ", tail, parent)
-        end,
-
-        mappings = {
-          n = {
-            ["<leader>q"] = actions.close,
-            ["p"] = paste_after,
-            ["P"] = paste_before,
-          }
-        }
       },
+
       pickers = {
-        find_files = {
-          hidden = true,
-          no_ignore = false,
-        },
         buffers = {
+          path_display = { "tail" },
           mappings = {
             n = {
               ["d"] = actions.delete_buffer
             }
           }
+        },
+        find_files = {
+          prompt_title = "Find files (fuzzy)"
         }
       },
+
       extensions = {
         frecency = {
-          prompt_title = "Find files",
-          show_filter_column = false,
+          show_filter_column = false, -- remove the project directory prefix
+          prompt_title = "Find files (frecency)",
+        },
+        file_browser = {
+          hijack_netrw = true,
+          hidden = { file_browser = true, folder_browser = true },
         },
       },
     })
 
-    require("telescope").load_extension "frecency"
-
     local builtin = require('telescope.builtin')
+    require("telescope").load_extension "frecency"
+    require("telescope").load_extension "file_browser"
 
     vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 
     vim.keymap.set( "n", "<leader>f", function()
         require("telescope").extensions.frecency.frecency({
-          workspace = "CWD",   -- restrict to current working directory
+          workspace = "CWD",
         })
       end,
-    { noremap = true, silent = true, desc = "Frecency (cwd only)" })
+    { desc = "Frecency (cwd only)" })
+
+    vim.keymap.set('n', '<leader>F', builtin.find_files, { desc = "Find files (fuzzy)" })
 
     -- Requires ripgrep to be installed in PATH
+    -- Ignores files ignored by git, but not .git/ itself
     vim.keymap.set('n', '<leader>r', function()
       builtin.live_grep({
+        file_ignore_patterns = { "%.git/" },
         additional_args = function()
           return { "--hidden" }
-        end,
+        end
       })
     end, { desc = "Live grep (include hidden)" })
 
@@ -102,6 +71,7 @@ return {
       if dir ~= "" then
         builtin.live_grep({
           cwd = dir,
+          file_ignore_patterns = { "%.git/" },
           additional_args = function()
             return { "--hidden" }
           end
@@ -109,6 +79,11 @@ return {
       end
     end, { desc = "Live grep in chosen subdir" })
 
-    vim.keymap.set('n', '<leader>gb', builtin.git_branches, {})
+    vim.keymap.set('n', '<leader>e', function()
+      require("telescope").extensions.file_browser.file_browser({
+        path = "%:p:h", -- in which directory to open file_browser
+        select_buffer = true,
+      })
+    end, { desc = "File browser" })
   end
 }

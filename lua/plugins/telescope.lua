@@ -9,6 +9,7 @@ return {
 
   config = function()
     local actions = require('telescope.actions')
+    local fb_actions = require "telescope._extensions.file_browser.actions"
     require('telescope').setup({
       defaults = {
         initial_mode = "normal",
@@ -36,6 +37,11 @@ return {
         file_browser = {
           hijack_netrw = true,
           hidden = { file_browser = true, folder_browser = true },
+          mappings = {
+            ["n"] = {
+              ["-"] = fb_actions.goto_parent_dir
+            }
+          }
         },
       },
     })

@@ -25,9 +25,6 @@ vim.opt.updatetime = 50
 -- Get rid of highlighted words after a search
 vim.opt.hlsearch = false
 
--- Netrw explorer should not show informational banner
-vim.g.netrw_banner = 0
-
 -- Smartcase affects nvim searches when vim.opt.ignorecase is turned on
 -- Ignorecase is not turned on but the telescope-frecency extension will still read this value
 vim.opt.smartcase = true

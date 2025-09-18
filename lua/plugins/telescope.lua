@@ -37,6 +37,7 @@ return {
         file_browser = {
           hijack_netrw = true,
           hidden = { file_browser = true, folder_browser = true },
+          respect_gitignore = false,
           mappings = {
             ["n"] = {
               ["-"] = fb_actions.goto_parent_dir

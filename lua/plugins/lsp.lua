@@ -96,7 +96,7 @@ return {
               border = "rounded"
             })
           end, opts)
-          vim.keymap.set('n', 'F', vim.lsp.buf.format, opts)
+          vim.keymap.set('n', '<leader>=', vim.lsp.buf.format, opts)
           vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, opts)
           vim.keymap.set('n', '<leader>k', function()
             vim.diagnostic.open_float()

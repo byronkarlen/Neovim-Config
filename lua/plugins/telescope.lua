@@ -51,9 +51,24 @@ return {
     require("telescope").load_extension "frecency"
     require("telescope").load_extension "file_browser"
 
+    -- Auto-update frecency scores on buffer enter
+    local ok, db_client = pcall(require, "telescope._extensions.frecency.db_client")
+    if ok then
+      vim.api.nvim_create_autocmd("BufEnter", {
+        callback = function(args)
+          local file = args.file or vim.api.nvim_buf_get_name(args.buf)
+          if file and file ~= "" and vim.fn.filereadable(file) == 1 then
+            db_client:update_file_entry(file)
+          end
+        end,
+      })
+    end
+
     vim.keymap.set('n', '<leader>b', builtin.buffers, {})
 
-    vim.keymap.set( "n", "<leader>F", function()
+    vim.keymap.set('n', '<leader><leader>', builtin.resume, {})
+
+    vim.keymap.set( "n", "<leader>f", function()
         require("telescope").extensions.frecency.frecency({
           workspace = "CWD",
         })
@@ -66,13 +81,14 @@ return {
       })
     end, { desc = "Old files" })
 
-    vim.keymap.set('n', '<leader>f', builtin.find_files, { desc = "Find files (fuzzy)" })
+    vim.keymap.set('n', '<leader>F', builtin.find_files, { desc = "Find files (fuzzy)" })
 
     -- Requires ripgrep to be installed in PATH
     -- Ignores files ignored by git, but not .git/ itself
     vim.keymap.set('n', '<leader>r', function()
       builtin.live_grep({
         file_ignore_patterns = { "%.git/" },
+        cache_picker = { num_pickers = 1 },
         additional_args = function()
           return { "--hidden" }
         end

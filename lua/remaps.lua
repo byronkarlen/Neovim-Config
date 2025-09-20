@@ -58,5 +58,5 @@ vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move up" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move right" })
 
 -- go to alternate buffer
-vim.keymap.set("n", "<Tab>", "<C-^>", {desc = "Switch to alternate buffer" })
+vim.keymap.set("n", "<leader><Tab>", "<C-^>", {desc = "Switch to alternate buffer" })
 

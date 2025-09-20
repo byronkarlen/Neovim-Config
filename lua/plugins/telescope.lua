@@ -11,9 +11,9 @@ return {
     local actions = require('telescope.actions')
     local fb_actions = require "telescope._extensions.file_browser.actions"
     require('telescope').setup({
-      defaults = {
+      defaults = require('telescope.themes').get_ivy({
         initial_mode = "normal",
-      },
+      }),
 
       pickers = {
         buffers = {

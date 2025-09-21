@@ -1,25 +1,8 @@
+-- Note: when installing an LSP, you must match the LSP name between mason and lspconfig
 return {
   {
     "mason-org/mason.nvim",
-    config = function()
-      require("mason").setup({
-        ui = { border = "single" }
-      })
-    end
-  },
-  {
-    "mason-org/mason-lspconfig.nvim",
-    config = function()
-      require("mason-lspconfig").setup({
-        -- Install manually though Mason to avoid duplicate LSP problem
-        -- ensure_installed = { "lua_ls", "typescript-language-server", "eslint-lsp" }
-        ensure_installed = { "eslint" },
-        automatic_installation = false,
-        automatic_setup = false,
-        automatic_enable = false,
-        handlers = nil
-      })
-    end
+    config = true
   },
   {
     "neovim/nvim-lspconfig",
@@ -71,20 +54,12 @@ return {
 
       -- lsp setup for eslint
       lspconfig.eslint.setup({
-        on_attach = function(client, _)
-          attacher(client)
-        end,
-        settings = {
-          codeActionOnSave = {
-            enable = true,
-            mode = "all"
-          },
-        }
+        on_attach = attacher,
       })
 
       -- keybindings once language server attaches to buffer
       vim.api.nvim_create_autocmd('LspAttach', {
-        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
         callback = function(ev)
           local opts = { buffer = ev.buf }
 

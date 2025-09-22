@@ -49,7 +49,11 @@ return {
 
       -- lsp setup for typescript
       lspconfig.ts_ls.setup({
-        on_attach = attacher
+        on_attach = function(client, _)
+          -- prevent ts_ls from trying to format
+          client.server_capabilities.documentFormattingProvider = false
+          attacher(client)
+        end,
       })
 
       -- lsp setup for eslint
@@ -80,25 +84,26 @@ return {
         end
       })
 
-      -- toggle language server on/off
+      -- toggle LSPs for the current buffer
       vim.keymap.set("n", "<leader>l", function()
         local bufnr = vim.api.nvim_get_current_buf()
         local clients = vim.lsp.get_clients({ bufnr = bufnr })
 
         if #clients > 0 then
           for _, c in ipairs(clients) do
-            vim.cmd("LspStop " .. c.name)
+            vim.lsp.buf_detach_client(bufnr, c.id)
           end
-          print("Stopping LSP: " .. table.concat(vim.tbl_map(function(c) return c.name end, clients), ", "))
+          print("Detached LSPs: " .. table.concat(vim.tbl_map(function(c) return c.name end, clients), ", "))
         else
           local ft = vim.bo[bufnr].filetype
           for _, config in pairs(require("lspconfig.configs")) do
             if config.manager and vim.tbl_contains(config.filetypes or {}, ft) then
               config.manager:try_add(bufnr)
+              print("Reattached LSPs: " .. (config.name or "unknown"))
             end
           end
         end
-      end, { desc = "Toggle all LSPs" })
+      end, { desc = "Toggle LSPs for current buffer" })
 
     end
   }

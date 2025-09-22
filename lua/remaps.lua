@@ -1,11 +1,27 @@
+local function smart_bdelete()
+  vim.cmd("bdelete")
+
+  local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+  if #bufs == 1 then
+    local b = bufs[1]
+    if b.name == "" and b.listed == 1 and b.loaded == 1 and vim.bo[b.bufnr].buftype == "" then
+      pcall(vim.api.nvim_command, "Alpha") -- open dashboard first
+      vim.cmd("bdelete " .. b.bufnr) -- then clean up [No Name]
+    end
+  elseif #bufs == 0 then
+    pcall(vim.api_nvim_command, "Alpha")
+  end
+end
+
 vim.g.mapleader = ' '
+
+-- for deleting buffers
+vim.keymap.set('n', '<leader>q', smart_bdelete, { desc = 'buffer delete' })
 
 -- copying to system clipboard
 vim.keymap.set({'n', 'v'}, '<leader>y', [["+y]]) -- [[]] are for strings without escaping in Lua
 vim.keymap.set('n', '<leader>Y', [["+Y]])
 
--- for deleting buffers
-vim.keymap.set('n', '<leader>q', vim.cmd.bd, { desc = 'buffer delete' })
 
 -- copy relative path + current line to system clipboard
 vim.keymap.set("v", "<leader>tt",

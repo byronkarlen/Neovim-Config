@@ -33,6 +33,7 @@ return {
         frecency = {
           show_filter_column = false, -- remove the project directory prefix
           prompt_title = "Find files (frecency)",
+          auto_validate = false, -- periodically run `:Telescope frecency cleanup` to clean up its DB
         },
         file_browser = {
           hijack_netrw = true,

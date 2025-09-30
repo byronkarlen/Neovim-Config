@@ -1,15 +1,21 @@
 local function smart_bdelete()
-  vim.cmd("bdelete")
+  local win_count = vim.fn.winnr('$')
+  if win_count > 1 then
+    vim.cmd('b #')
+    vim.cmd('bd #')
+  else
+    vim.cmd("bdelete")
 
-  local bufs = vim.fn.getbufinfo({ buflisted = 1 })
-  if #bufs == 1 then
-    local b = bufs[1]
-    if b.name == "" and b.listed == 1 and b.loaded == 1 and vim.bo[b.bufnr].buftype == "" then
-      pcall(vim.api.nvim_command, "Alpha") -- open dashboard first
-      vim.cmd("bdelete " .. b.bufnr) -- then clean up [No Name]
+    local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+    if #bufs == 1 then
+      local b = bufs[1]
+      if b.name == "" and b.listed == 1 and b.loaded == 1 and vim.bo[b.bufnr].buftype == "" then
+        pcall(vim.api.nvim_command, "Alpha") -- open dashboard first
+        vim.cmd("bdelete " .. b.bufnr)       -- then clean up [No Name]
+      end
+    elseif #bufs == 0 then
+      pcall(vim.api_nvim_command, "Alpha")
     end
-  elseif #bufs == 0 then
-    pcall(vim.api_nvim_command, "Alpha")
   end
 end
 
@@ -19,7 +25,7 @@ vim.g.mapleader = ' '
 vim.keymap.set('n', '<leader>q', smart_bdelete, { desc = 'buffer delete' })
 
 -- copying to system clipboard
-vim.keymap.set({'n', 'v'}, '<leader>y', [["+y]]) -- [[]] are for strings without escaping in Lua
+vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]]) -- [[]] are for strings without escaping in Lua
 vim.keymap.set('n', '<leader>Y', [["+Y]])
 
 
@@ -50,13 +56,13 @@ vim.keymap.set("n", "<leader>ta", function()
 end, { desc = "Copy absolute file path" })
 
 -- delete to black hole
-vim.keymap.set({"n", "v"}, "<leader>d", '"_d')
+vim.keymap.set({ "n", "v" }, "<leader>d", '"_d')
 vim.keymap.set("n", "<leader>D", '"_D')
 -- also accomplished with 'x' in visual mode
 vim.keymap.set("v", "x", '"_x', { noremap = true, silent = true })
 
 -- change to black hole by default
-vim.keymap.set({"n", "v"}, "c", '"_c')
+vim.keymap.set({ "n", "v" }, "c", '"_c')
 vim.keymap.set("n", "C", '"_C')
 
 -- single char delete to black hole by default
@@ -74,5 +80,4 @@ vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move up" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move right" })
 
 -- go to alternate buffer
-vim.keymap.set("n", "<leader><Tab>", "<C-^>", {desc = "Switch to alternate buffer" })
-
+vim.keymap.set("n", "<leader><Tab>", "<C-^>", { desc = "Switch to alternate buffer" })

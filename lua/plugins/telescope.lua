@@ -25,7 +25,8 @@ return {
           }
         },
         find_files = {
-          prompt_title = "Find files (fuzzy)"
+          prompt_title = "Find files (fuzzy)",
+          initial_mode = "insert"
         },
       },
 
@@ -33,11 +34,12 @@ return {
         frecency = {
           show_filter_column = false, -- remove the project directory prefix
           prompt_title = "Find files (frecency)",
-          auto_validate = false, -- periodically run `:Telescope frecency cleanup` to clean up its DB
+          auto_validate = false,      -- periodically run `:Telescope frecency cleanup` to clean up its DB
         },
         file_browser = {
           hijack_netrw = true,
           hidden = { file_browser = true, folder_browser = true },
+          follow_symlinks = true,
           respect_gitignore = false,
           mappings = {
             ["n"] = {
@@ -69,12 +71,12 @@ return {
 
     vim.keymap.set('n', '<leader><leader>', builtin.resume, {})
 
-    vim.keymap.set( "n", "<leader>f", function()
+    vim.keymap.set("n", "<leader>f", function()
         require("telescope").extensions.frecency.frecency({
           workspace = "CWD",
         })
       end,
-    { desc = "Frecency" })
+      { desc = "Frecency" })
 
     vim.keymap.set('n', '<leader>o', function()
       builtin.oldfiles({
@@ -92,7 +94,8 @@ return {
         cache_picker = { num_pickers = 1 },
         additional_args = function()
           return { "--hidden" }
-        end
+        end,
+        initial_mode = "insert"
       })
     end, { desc = "Live grep (include hidden)" })
 
@@ -104,7 +107,8 @@ return {
           file_ignore_patterns = { "%.git/" },
           additional_args = function()
             return { "--hidden" }
-          end
+          end,
+          initial_mode = "insert"
         })
       end
     end, { desc = "Live grep in chosen subdir" })

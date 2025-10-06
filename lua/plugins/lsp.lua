@@ -67,6 +67,9 @@ return {
         callback = function(ev)
           local opts = { buffer = ev.buf }
 
+          -- Enable completion with LSP
+          vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
           vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
           vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
           vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)

@@ -73,5 +73,5 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move down" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move up" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move right" })
 
--- go to alternate buffer
+-- go to alternate buffer. Just <Tab> doesn't work because interferes with <C-i>
 vim.keymap.set("n", "<leader><Tab>", "<C-^>", { desc = "Switch to alternate buffer" })

@@ -43,7 +43,22 @@ return {
           temp__scrolling_limit = 10000,
           mappings = {
             ["n"] = {
-              ["-"] = fb_actions.goto_parent_dir
+              ["-"] = fb_actions.goto_parent_dir,
+              ["<leader>tr"] = function(prompt_bufnr)
+                local state = require('telescope.actions.state')
+                local current_picker = state.get_current_picker(prompt_bufnr)
+                local current_dir = current_picker.finder.path
+                local relative_path = vim.fn.fnamemodify(current_dir, ":~:.")
+                vim.fn.setreg("+", relative_path)
+                print(relative_path)
+              end,
+              ["<leader>ta"] = function(prompt_bufnr)
+                local state = require('telescope.actions.state')
+                local current_picker = state.get_current_picker(prompt_bufnr)
+                local current_dir = current_picker.finder.path
+                vim.fn.setreg("+", current_dir)
+                print(current_dir)
+              end
             }
           }
         },

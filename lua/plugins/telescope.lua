@@ -26,7 +26,6 @@ return {
         },
         find_files = {
           prompt_title = "Find files (fuzzy)",
-          initial_mode = "insert"
         },
       },
 
@@ -34,13 +33,14 @@ return {
         frecency = {
           show_filter_column = false, -- remove the project directory prefix
           prompt_title = "Find files (frecency)",
-          auto_validate = false,      -- periodically run `:Telescope frecency cleanup` to clean up its DB
+          auto_validate = false,
         },
         file_browser = {
           hijack_netrw = true,
           hidden = { file_browser = true, folder_browser = true },
           follow_symlinks = true,
           respect_gitignore = false,
+          temp__scrolling_limit = 10000,
           mappings = {
             ["n"] = {
               ["-"] = fb_actions.goto_parent_dir
@@ -95,7 +95,6 @@ return {
         additional_args = function()
           return { "--hidden" }
         end,
-        initial_mode = "insert"
       })
     end, { desc = "Live grep (include hidden)" })
 
@@ -108,7 +107,6 @@ return {
           additional_args = function()
             return { "--hidden" }
           end,
-          initial_mode = "insert"
         })
       end
     end, { desc = "Live grep in chosen subdir" })

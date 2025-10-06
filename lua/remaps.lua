@@ -1,21 +1,15 @@
 local function smart_bdelete()
-  local win_count = vim.fn.winnr('$')
-  if win_count > 1 then
-    vim.cmd('b #')
-    vim.cmd('bd #')
-  else
-    vim.cmd("bdelete")
+  vim.cmd("bdelete")
 
-    local bufs = vim.fn.getbufinfo({ buflisted = 1 })
-    if #bufs == 1 then
-      local b = bufs[1]
-      if b.name == "" and b.listed == 1 and b.loaded == 1 and vim.bo[b.bufnr].buftype == "" then
-        pcall(vim.api.nvim_command, "Alpha") -- open dashboard first
-        vim.cmd("bdelete " .. b.bufnr)       -- then clean up [No Name]
-      end
-    elseif #bufs == 0 then
-      pcall(vim.api_nvim_command, "Alpha")
+  local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+  if #bufs == 1 then
+    local b = bufs[1]
+    if b.name == "" and b.listed == 1 and b.loaded == 1 and vim.bo[b.bufnr].buftype == "" then
+      pcall(vim.api.nvim_command, "Alpha") -- open dashboard first
+      vim.cmd("bdelete " .. b.bufnr)       -- then clean up [No Name]
     end
+  elseif #bufs == 0 then
+    pcall(vim.api_nvim_command, "Alpha")
   end
 end
 

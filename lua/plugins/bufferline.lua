@@ -19,10 +19,6 @@ return {
           })
           nord_highlights.fill = nord_highlights.background
           return nord_highlights
-        elseif current_theme == "catppuccin" then
-          local catppuccin_highlights = require("catppuccin.groups.integrations.bufferline").get_theme()()
-          catppuccin_highlights.fill = catppuccin_highlights.background
-          return catppuccin_highlights
         else
           return {
             background = { bg = "NONE" },

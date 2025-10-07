@@ -4,10 +4,10 @@
 vim.opt.wrap = false
 
 -- Tabs
-vim.opt.tabstop = 2 -- controls how many column a tab character takes up in display
-vim.opt.softtabstop = 2 -- controls how many columns Vim moves the cursor when you press tab while editing
-vim.opt.shiftwidth = 2 -- controls the behavior of using << and >>
-vim.opt.expandtab = true -- use spaces instead of tab characters
+vim.opt.tabstop = 2         -- controls how many column a tab character takes up in display
+vim.opt.softtabstop = 2     -- controls how many columns Vim moves the cursor when you press tab while editing
+vim.opt.shiftwidth = 2      -- controls the behavior of using << and >>
+vim.opt.expandtab = true    -- use spaces instead of tab characters
 vim.opt.smartindent = false -- vim will automatically indent/de-indent with code (e.g. { })
 
 -- Swap files (for in-memory changes) and backup files (for breaking writes)
@@ -30,7 +30,7 @@ vim.opt.hlsearch = false
 vim.opt.smartcase = true
 
 vim.opt.splitright = true
+vim.opt.splitbelow = true
 
 -- Keep cursor centered
 vim.opt.scrolloff = 12
-

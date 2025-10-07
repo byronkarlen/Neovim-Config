@@ -75,3 +75,5 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move right" })
 
 -- go to alternate buffer. Just <Tab> doesn't work because interferes with <C-i>
 vim.keymap.set("n", "<leader><Tab>", "<C-^>", { desc = "Switch to alternate buffer" })
+
+vim.keymap.set("n", "<leader>s", ":w<CR>", { silent = true })

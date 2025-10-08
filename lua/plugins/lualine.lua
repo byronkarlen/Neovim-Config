@@ -6,8 +6,8 @@ return {
     require('lualine').setup {
       options = {
         icons_enabled = true,
-        component_separators = { left = '', right = ''},
-        section_separators = { left = '', right = ''},
+        component_separators = { left = '', right = '' },
+        section_separators = { left = '', right = '' },
         disabled_filetypes = {
           statusline = {},
           winbar = {},
@@ -22,12 +22,12 @@ return {
         }
       },
       sections = {
-        lualine_a = {'mode'},
-        lualine_b = {'filename'},
-        lualine_c = {'branch', {'location', fmt = function(str) return str:match('(%d+):') end}},
-        lualine_x = {'encoding'},
-        lualine_y = {'diagnostics'},
-        lualine_z = {'lsp_status'}
+        lualine_a = { 'mode' },
+        lualine_b = { { 'filename', path = 1 } },
+        lualine_c = { 'branch', { 'location', fmt = function(str) return str:match('(%d+):') end } },
+        lualine_x = { 'encoding' },
+        lualine_y = { 'diagnostics' },
+        lualine_z = { 'lsp_status' }
       },
       tabline = {},
       winbar = {},

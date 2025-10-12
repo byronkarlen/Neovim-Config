@@ -7,25 +7,18 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
-
-      -- function to make sure LSPs are attaching correctly
-      local function attacher(client)
-        print('Attaching LSP: ' .. client.name)
-
-        vim.diagnostic.config({
-          virtual_text = true,
-          signs = true,
-          update_in_insert = false,
-          underline = true,
-          severity_sort = true,
-          float = { border = "single" },
-        })
-      end
+      -- Configure diagnostics globally
+      vim.diagnostic.config({
+        virtual_text = true,
+        signs = true,
+        update_in_insert = false,
+        underline = true,
+        severity_sort = true,
+        float = { border = "single" },
+      })
 
       -- lsp setup for Lua
-      lspconfig.lua_ls.setup({
-        on_attach = attacher,
+      vim.lsp.config('lua_ls', {
         filetypes = { "lua" },
         settings = {
           Lua = {
@@ -46,26 +39,31 @@ return {
           },
         },
       })
+      vim.lsp.enable('lua_ls')
 
       -- lsp setup for typescript
-      lspconfig.ts_ls.setup({
-        on_attach = function(client, _)
-          -- prevent ts_ls from trying to format
-          client.server_capabilities.documentFormattingProvider = false
-          attacher(client)
-        end,
+      vim.lsp.config('ts_ls', {
+        settings = {},
       })
+      vim.lsp.enable('ts_ls')
 
       -- lsp setup for eslint
-      lspconfig.eslint.setup({
-        on_attach = attacher,
+      vim.lsp.config('eslint', {
+        settings = {},
       })
+      vim.lsp.enable('eslint')
 
       -- keybindings once language server attaches to buffer
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
         callback = function(ev)
           local opts = { buffer = ev.buf }
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+
+          -- prevent ts_ls from trying to format
+          if client and client.name == 'ts_ls' then
+            client.server_capabilities.documentFormattingProvider = false
+          end
 
           vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
           vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
@@ -91,16 +89,14 @@ return {
         local clients = vim.lsp.get_clients({ bufnr = bufnr })
 
         if #clients > 0 then
+          vim.b.detached_clients = vim.tbl_map(function(c) return c.id end, clients)
           for _, c in ipairs(clients) do
             vim.lsp.buf_detach_client(bufnr, c.id)
           end
-          print("Detached LSPs: " .. table.concat(vim.tbl_map(function(c) return c.name end, clients), ", "))
         else
-          local ft = vim.bo[bufnr].filetype
-          for _, config in pairs(require("lspconfig.configs")) do
-            if config.manager and vim.tbl_contains(config.filetypes or {}, ft) then
-              config.manager:try_add(bufnr)
-              print("Reattached LSPs: " .. (config.name or "unknown"))
+          if vim.b.detached_clients then
+            for _, client_id in ipairs(vim.b.detached_clients) do
+              vim.lsp.buf_attach_client(bufnr, client_id)
             end
           end
         end

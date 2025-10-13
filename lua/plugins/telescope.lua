@@ -40,6 +40,7 @@ return {
           hidden = { file_browser = true, folder_browser = true },
           follow_symlinks = true,
           respect_gitignore = false,
+          no_ignore = true,
           temp__scrolling_limit = 10000,
           mappings = {
             ["n"] = {
